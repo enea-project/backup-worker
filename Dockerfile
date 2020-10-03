@@ -1,5 +1,5 @@
 FROM alpine
 
-RUN apk add --no-cache bash postgresql-client
+RUN apk add --no-cache bash rsync
 
 #ENTRYPOINT ["/run.sh"]
