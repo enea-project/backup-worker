@@ -1,0 +1,29 @@
+name: Build eneaproject/backup-container
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.0
+    - name: Dockerhub login
+      env:
+        DH_USER: ${{ secrets.DH_USER }}
+        DH_TOKEN: ${{ secrets.DH_TOKEN }}
+      run: |
+        echo "${DH_TOKEN}" | docker login --username ${DH_USER} --password-stdin
+    - name: Set up Docker Buildx
+      uses: crazy-max/ghaction-docker-buildx@v3.1.0
+    - name: Build dockerfile (with push)
+      run: |
+        docker buildx build                                      \
+          --platform=linux/amd64,linux/arm64                     \
+          --output type=image,push=true                          \
+          --file ./Dockerfile                                    \
+          --tag "eneaproject/backup-container":${GITHUB_SHA:0:7} \
+          --tag "eneaproject/backup-container":latest            \
+          .
