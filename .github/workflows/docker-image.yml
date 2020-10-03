@@ -24,6 +24,6 @@ jobs:
           --platform=linux/amd64,linux/arm64                     \
           --output type=image,push=true                          \
           --file ./Dockerfile                                    \
-          --tag "eneaproject/backup-container":${GITHUB_SHA:0:7} \
-          --tag "eneaproject/backup-container":latest            \
+          --tag "eneaproject/backup-worker":${GITHUB_SHA:0:7} \
+          --tag "eneaproject/backup-worker":latest            \
           .
